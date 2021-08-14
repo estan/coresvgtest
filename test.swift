@@ -30,9 +30,14 @@ let size = CGSVGDocumentGetCanvasSize(document)
 
 @main
 struct TestApp: App {
-  var body: some Canvas { context, size in
-    context.withCGContext { cgContext in
-      CGContextDrawSVGDocument(cgContext, document)
+  var body: some View {
+    VStack {
+      Canvas { context, size in
+        context.withCGContext { cgContext in
+          CGContextDrawSVGDocument(cgContext, document)
+        }
+      }
+      .frame(width: size.width, height: size.height)
     }
-  }.frame(width: size.width, height: size.height)
+  }
 }
