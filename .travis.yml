@@ -6,4 +6,5 @@ jobs:
     - osx_image: xcode12.5
 
 script:
+  - make
   - ./test
