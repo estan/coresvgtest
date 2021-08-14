@@ -20,3 +20,5 @@ let data = """
 """.data(using: .utf8)!
 
 let document = CGSVGDocumentCreateFromData(data as CFData, nil)
+
+print(document)
