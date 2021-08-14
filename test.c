@@ -6,6 +6,7 @@
 #include <locale.h>
 
 #include <CoreGraphics/CGContext.h>
+#include <CoreGraphics/CGBitmapContext.h>
 #include <CoreFoundation/CFData.h>
 
 typedef struct NSObject CGSVGDocument;
@@ -19,6 +20,7 @@ int main(int argc, char *argv[]) {
     }
 
     CGSVGDocument *(*CGSVGDocumentCreateFromData)(CFDataRef, CFDictionaryRef);
+    void (*CGContextDrawSVGDocument)(CGContextRef, CGSVGDocument*);
 
     void *handle = dlopen("/System/Library/PrivateFrameworks/CoreSVG.framework/CoreSVG", RTLD_NOW);
 
@@ -30,6 +32,14 @@ int main(int argc, char *argv[]) {
     *(void**)(&CGSVGDocumentCreateFromData) = dlsym(handle, "CGSVGDocumentCreateFromData");
 
     if (!CGSVGDocumentCreateFromData) {
+        fprintf(stderr, "Error: %s\n", dlerror());
+        dlclose(handle);
+        return EXIT_FAILURE;
+    }
+
+    *(void**)(&CGContextDrawSVGDocument) = dlsym(handle, "CGContextDrawSVGDocument");
+
+    if (!CGContextDrawSVGDocument) {
         fprintf(stderr, "Error: %s\n", dlerror());
         dlclose(handle);
         return EXIT_FAILURE;
@@ -53,9 +63,11 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    /*
-	void *data = calloc(height, bytesPerLine);
-	CGContextRef offscreen = CGBitmapContextCreate(void *data, size_t width, size_t height, size_t bitsPerComponent, size_t bytesPerRow, CGColorSpaceRef space, uint32_t bitmapInfo);*/
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+    CGContextRef context = CGBitmapContextCreate(NULL, 10, 10, 8, 0, colorSpace, kCGImageAlphaPremultipliedLast);
+
+    CGContextDrawSVGDocument(context, document);
+
     dlclose(handle);
 
     return EXIT_SUCCESS;
