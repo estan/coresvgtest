@@ -13,6 +13,16 @@ jobs:
         - LC_ALL=C
         - CORESVG_VERBOSE=1
 
+    - osx_image: xcode12.4
+      env:
+        - LC_ALL=sv_SE.UTF-8
+        - CORESVG_VERBOSE=1
+
+    - osx_image: xcode12.4
+      env:
+        - LC_ALL=C
+        - CORESVG_VERBOSE=1
+
 script:
   - ls /usr/share/locale
   - locale
