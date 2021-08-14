@@ -28,8 +28,11 @@ print(document)
 
 let size = CGSVGDocumentGetCanvasSize(document)
 
-Canvas { context, size in
-  context.withCGContext { cgContext in
-    CGContextDrawSVGDocument(cgContext, document)
-  }
-}.frame(width: size.width, height: size.height)
+@main
+struct TestApp: App {
+  var body: some Canvas { context, size in
+    context.withCGContext { cgContext in
+      CGContextDrawSVGDocument(cgContext, document)
+    }
+  }.frame(width: size.width, height: size.height)
+}
