@@ -19,6 +19,6 @@ let data = """
 </svg>
 """.data(using: .utf8)!
 
-let document = CGSVGDocumentCreateFromData(data as CFData, nil)
+guard let document = CGSVGDocumentCreateFromData(data as CFData, nil)?.takeUnretainedValue() else { exit(1) }
 
 print(document)
