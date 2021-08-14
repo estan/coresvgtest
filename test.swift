@@ -1,5 +1,6 @@
 import Darwin
 import Foundation
+import SwiftUI
 
 @objc
 class CGSVGDocument: NSObject { }
@@ -11,6 +12,8 @@ func load<T>(_ name: String) -> T {
 }
 
 var CGSVGDocumentCreateFromData: (@convention(c) (CFData?, CFDictionary?) -> Unmanaged<CGSVGDocument>?) = load("CGSVGDocumentCreateFromData")
+var CGContextDrawSVGDocument: (@convention(c) (CGContext?, CGSVGDocument?) -> Void) = load("CGContextDrawSVGDocument")
+var CGSVGDocumentGetCanvasSize: (@convention(c) (CGSVGDocument?) -> CGSize) = load("CGSVGDocumentGetCanvasSize")
 
 let data = """
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10">
@@ -22,3 +25,11 @@ let data = """
 guard let document = CGSVGDocumentCreateFromData(data as CFData, nil)?.takeUnretainedValue() else { exit(1) }
 
 print(document)
+
+let size = CGSVGDocumentGetCanvasSize(document)
+
+Canvas { context, size in
+  context.withCGContext { cgContext in
+    CGContextDrawSVGDocument(cgContext, document)
+  }
+}.frame(width: size.width, height: size.height)
