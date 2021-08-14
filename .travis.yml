@@ -1,5 +1,5 @@
 os: osx
-language: swift
+language: c
 
 jobs:
   include:
@@ -26,5 +26,5 @@ jobs:
 script:
   - ls /usr/share/locale
   - locale
-  - swiftc test.swift
+  - clang -framework CoreGraphics -framework CoreFoundation -o test test.c
   - ./test
