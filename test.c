@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <locale.h>
 
 #include <CoreGraphics/CGContext.h>
 #include <CoreFoundation/CFData.h>
@@ -10,6 +11,13 @@
 typedef struct NSObject CGSVGDocument;
 
 int main(int argc, char *argv[]) {
+    char *result = setlocale(LC_NUMERIC, "sv_SE.UTF-8");
+
+    if (result == NULL) {
+        fprintf(stderr, "Error: Failed to set LC_NUMERIC to sv_SE.UTF-8\n");
+        return EXIT_FAILURE;
+    }
+
     CGSVGDocument *(*CGSVGDocumentCreateFromData)(CFDataRef, CFDictionaryRef);
 
     void *handle = dlopen("/System/Library/PrivateFrameworks/CoreSVG.framework/CoreSVG", RTLD_NOW);
