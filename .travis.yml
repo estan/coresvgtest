@@ -4,27 +4,6 @@ language: c
 jobs:
   include:
     - osx_image: xcode12.5
-      env:
-        - LC_ALL=sv_SE.UTF-8
-        - CORESVG_VERBOSE=1
-
-    - osx_image: xcode12.5
-      env:
-        - LC_ALL=C
-        - CORESVG_VERBOSE=1
-
-    - osx_image: xcode12.4
-      env:
-        - LC_ALL=sv_SE.UTF-8
-        - CORESVG_VERBOSE=1
-
-    - osx_image: xcode12.4
-      env:
-        - LC_ALL=C
-        - CORESVG_VERBOSE=1
 
 script:
-  - ls /usr/share/locale
-  - locale
-  - clang -framework CoreGraphics -framework CoreFoundation -o test test.c
   - ./test
