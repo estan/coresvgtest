@@ -1,6 +1,10 @@
-os: osx
-osx_image: xcode12.5
+matrix:
+  include:
+    - os: osx
+    - osx_image: xcode12.5
+    - env:
+      - LC_ALL=sv_SE.UTF-8
 
 script:
   - swiftc test.swift
-  . ./test
+  - ./test
