@@ -4,11 +4,10 @@
     "author" : "xcode",
     "preserves-vector-representation": true
   },
-  "data" : [
+  "images" : [
     {
       "idiom" : "universal",
-      "filename" : "TestSVG.svg",
-      "universal-type-identifier" : "org.w3c.svg"
+      "filename" : "TestSVG.svg"
     }
   ]
 }
