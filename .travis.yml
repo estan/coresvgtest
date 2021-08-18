@@ -1,10 +1,10 @@
 os: osx
-language: c
+language: swift
 
 jobs:
   include:
     - osx_image: xcode12.5
 
 script:
-  - make
+  - swiftc -framework AppKit -framework SwiftUI -o test test.swift
   - ./test
